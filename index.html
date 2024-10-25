@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Password Generator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@400;500;600;700&display=swap');
+
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Gemunu Libre', sans-serif;
+}
+
+:root {
+  
+  --a: 1px solid black;
+
+  --clr-bg: hsl(0, 0%, 10%);
+  --clr-mainBg: hsl(0, 0%, 30%);
+  --clr-text: hsl(0, 0%, 80%);
+  --clr-btn-img: hsl(120, 100%, 80%);
+  --clr-level: hsl(60, 100%, 80%);
+  --clr-white: hsl(0, 0%, 100%);
+  
+
+  --fs-1: 40px;
+  --fs-2: 25px;
+  --fs-3: 18px;
+
+}
+
+svg {
+  transform: scale(0.5);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: var(--clr-text);
+  background-color: var(--clr-bg);
+}
+
+main {
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#screenDiv{
+  width: 100%;
+  margin: 20px 0px;
+  display: flex;
+  align-items: stretch;
+  background-color: var(--clr-mainBg);
+  border-radius: 5px;
+}
+#screen {
+  width: 100%;
+  font-size: var(--fs-2);
+  padding: 0px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--clr-mainBg);
+  text-align: center;
+  color: var(--clr-white);
+}
+#screenBtn {
+  background-color: transparent;
+  border: none;
+}
+#screenBtn svg {
+  fill: var(--clr-btn-img);
+} 
+#screenBtn:active svg {
+  fill: var(--clr-text);
+}
+.copyModal {
+  min-width: 100px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 30px;
+  left: calc(50% - 50px);
+  border: 4px solid var(--clr-white);
+  border-radius: 3px;
+  font-size: var(--fs-3);
+  transform: translateX(-100%);
+  background-color: var(--clr-bg);
+  color: var(--clr-white);
+  opacity: 0;
+  z-index: 10;
+}
+
+.copyModal.add {
+  animation: slide 2s forwards;
+}
+
+@keyframes slide {
+  25% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50%{
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+section {
+  width: 100%;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  border-radius: 5px;
+  background-color: var(--clr-mainBg);
+}
+
+#rangeDiv {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+h2 {
+  font-size: var(--fs-3);
+}
+#rangeValue {
+  font-size: var(--fs-2);
+}
+#rangeInput { 
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  outline: none;
+  border-radius: 10px;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  background: var(--clr-btn-img);
+}
+#rangeInput:hover {
+  opacity: 1;
+}
+#rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--clr-mainBg);
+  border-radius: 50%;
+  background: var(--clr-btn-img);
+  cursor: pointer;
+}
+#rangeInput:active::-webkit-slider-thumb {
+  background: var(--clr-mainBg);
+  border-color: var(--clr-btn-img);
+}
+#rangeInput::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--clr-white);
+  border-radius: 50%;
+  background: var(--clr-btn-img);
+  cursor: pointer;
+}
+
+#checkboxNav {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#checkboxNav li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox {
+  position: relative;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid hsl(0, 0%, 70%);
+  border-radius: 2px;
+  outline: none;
+  background-color: var(--clr-white);
+}
+.checkbox:checked {
+  background-color: var(--clr-btn-img);
+}
+.checkbox:checked::after {
+  content: '\2713';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.2);
+  z-index: 10;
+}
+
+.random {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+h4 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bar {
+  outline: 2px solid hsl(0, 0%, 70%);
+  border-radius: 2px;
+  display: block;
+  width: 10px;
+  height: 30px;
+  background-color: var(--clr-white);
+}
+
+@media (max-width: 500px) {
+  body {
+    width: 100vw;
+  }
+  main {
+    width: 90%;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <main>
+    <h1>Password Generator</h1>
+
+    <div id="screenDiv">
+      <input type="text" name="" id="screen" disabled="true">
+      <button id="screenBtn"><svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
+          <path
+            d="M9 43.95q-1.2 0-2.1-.9-.9-.9-.9-2.1V10.8h3v30.15h23.7v3Zm6-6q-1.2 0-2.1-.9-.9-.9-.9-2.1v-28q0-1.2.9-2.1.9-.9 2.1-.9h22q1.2 0 2.1.9.9.9.9 2.1v28q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h22v-28H15v28Zm0 0v-28 28Z" />
+        </svg></button>
+    </div>
+
+    <section>
+      <div id="rangeDiv">
+        <h2>Character Length</h2>
+        <strong id="rangeValue">00</strong>
+      </div>
+
+      <input id="rangeInput" type="range">
+
+      <ul id="checkboxNav">
+        <li><label for="upper"> </label><input type="checkbox" name="" id="upper" data-element="uppercase" class="checkbox" checked="true"> Include Uppercase
+          Letters</label></li>
+        <li><label for="lower"> </label><input type="checkbox" name="" id="lower" data-element="lowercase" class="checkbox" checked="true"> Include Lowercase
+          Letters</label></li>
+        <li><label for="number"> </label><input type="checkbox" name="" id="number" data-element="numbers" class="checkbox"> Include
+          Numbers</label></li>
+        <li><label for="symbol"> </label><input type="checkbox" name="" id="symbol" data-element="symbols" class="checkbox"> Include
+          Symbols</label></li>
+      </ul>
+
+      <div class="random">
+        <h3>STRENGTH</h3>
+
+        <h4><b id="strength">WEAK</b><span class="bar"></span><span class="bar"></span><span class="bar"></span><span
+            class="bar"></span></h4>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const rangeInput = document.getElementById('rangeInput');
+const rangeValue = document.getElementById('rangeValue');
+
+const screen = document.getElementById('screen');
+const screenbtn = document.getElementById('screenBtn');
+
+let checkbox = document.getElementsByClassName('checkbox');
+const barre = document.getElementsByClassName('bar');
+const strength = document.getElementById('strength');
+
+const generate = document.getElementById('generate');
+
+const KEYOBJECT = {
+
+  'uppercase': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+  'lowercase': ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
+  'numbers': ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+  'symbols': ['!', '@', '#', '%', '^', '&', '*', '(', ')', '_', '+', '=', ',', '.', '/', '?', '<', '>', ']', '[', '{', '}', ';', ':', '"']
+
+}
+
+let range = 10;
+
+rangeValue.innerHTML = Math.floor(rangeInput.value / 5);
+
+rangeInput.oninput = function () {
+  rangeValue.innerHTML = Math.floor(rangeInput.value / 5);
+  range = Math.floor(rangeInput.value / 5);
+  generatePassword(range, checkbox);
+}
+
+for(let i = 0; i < checkbox.length; i++) {
+  checkbox[i].addEventListener('click', ()=>{
+    generatePassword(range, checkbox);
+  })
+}
+
+
+screenbtn.addEventListener('click', () => {
+  screen.select();
+  if (screen.value.length > 0) {
+    navigator.clipboard.writeText(screen.value);
+
+    let copyModal = document.createElement('div');
+
+    copyModal.classList.add('copyModal');
+    copyModal.classList.add('add');
+    copyModal.innerHTML = 'Code copié!';
+
+    document.body.appendChild(copyModal);
+
+    setTimeout(() => {
+      copyModal.remove();
+    }, 2000)
+  } else {
+    let copyModal = document.createElement('div');
+
+    copyModal.classList.add('copyModal');
+    copyModal.classList.add('add');
+    copyModal.innerHTML = 'Emplacement vide!';
+
+    document.body.appendChild(copyModal);
+
+    setTimeout(() => {
+      copyModal.remove();
+    }, 2000)
+  }
+
+});
+
+function generatePassword(range, checkbox) {
+
+  let elementTab = [];
+
+  for (let i = 0; i < checkbox.length; i++) {
+
+    if (checkbox[i].checked == true) {
+
+      elementTab.push(checkbox[i].getAttribute('data-element'));
+    }
+  }
+
+  let usable = [];
+
+  for (let i = 0; i < elementTab.length; i++) {
+    usable.push(KEYOBJECT[elementTab[i]]);
+  }
+
+  let generateWord = [];
+
+  while (generateWord.length < range) {
+    let r1 = Math.floor((usable.length) * Math.random());
+
+    let r2 = Math.floor((usable[r1].length) * Math.random());
+
+    generateWord.push(usable[r1][r2]);
+  }
+
+  screen.value = generateWord.join('').toString();
+
+
+  if (usable.length == 1) {
+
+    for (let i = 0; i < barre.length; i++) {
+      barre[0].style.backgroundColor = 'red';
+      barre[i].style.backgroundColor = 'white';
+    }
+
+
+    if (range < 5) {
+      strength.innerText = 'LOL';
+    } else {
+      strength.innerText = 'WEAK';
+    }
+
+  } else if (usable.length == 2) {
+
+    if (range < 9) {
+
+      for (let i = 0; i < barre.length; i++) {
+        barre[0].style.backgroundColor = 'red';
+        barre[i].style.backgroundColor = 'white';
+      }
+
+      strength.innerText = 'WEAK';
+
+    } else {
+
+      for (let i = 0; i < barre.length; i++) {
+        barre[i].style.backgroundColor = 'yellow';
+        barre[3].style.backgroundColor = 'white';
+      }
+
+      strength.innerText = 'MEDIUM';
+
+    }
+
+  } else if (usable.length == 3) {
+
+    if (range < 8) {
+
+      for (let i = 0; i < barre.length; i++) {
+        barre[0].style.backgroundColor = 'red';
+        barre[i].style.backgroundColor = 'white';
+      }
+
+      strength.innerText = 'WEAK';
+
+    } else if (range > 8) {
+
+      for (let i = 0; i < barre.length; i++) {
+        barre[i].style.backgroundColor = 'yellow';
+        barre[3].style.backgroundColor = 'white';
+      }
+
+      strength.innerText = 'MEDIUM';
+
+    } else if (range > 15) {
+
+      for (let i = 0; i < barre.length; i++) {
+        barre[i].style.backgroundColor = 'yellow';
+        barre[3].style.backgroundColor = 'white';
+      }
+
+      strength.innerText = 'STRONG ENOUGH';
+
+    }
+
+  } else if (usable.length == 4) {
+
+    if (range < 8) {
+
+      for (let i = 0; i < barre.length; i++) {
+        barre[0].style.backgroundColor = 'red';
+        barre[i].style.backgroundColor = 'white';
+      }
+
+      strength.innerText = 'WEAK';
+    } else if (range > 8 && range < 15) {
+
+
+      for (let i = 0; i < barre.length; i++) {
+        barre[i].style.backgroundColor = 'yellow';
+        barre[3].style.backgroundColor = 'white';
+      }
+
+      strength.innerText = 'STRONG ENOUGH';
+
+    } else if (range > 15) {
+
+      for (let i = 0; i < barre.length; i++) {
+        barre[i].style.backgroundColor = 'var(--clr-btn-img)';
+      }
+
+      strength.innerText = 'VERY STRONG';
+
+    }
+
+  }
+}
+generatePassword(range, checkbox);
+  </script>
+</body>
+
+</html>

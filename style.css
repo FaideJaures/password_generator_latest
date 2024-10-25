@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@400;500;600;700&display=swap');
+
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Gemunu Libre', sans-serif;
+}
+
+:root {
+  
+  --a: 1px solid black;
+
+  --clr-bg: hsl(0, 0%, 10%);
+  --clr-mainBg: hsl(0, 0%, 30%);
+  --clr-text: hsl(0, 0%, 80%);
+  --clr-btn-img: hsl(120, 100%, 80%);
+  --clr-level: hsl(60, 100%, 80%);
+  --clr-white: hsl(0, 0%, 100%);
+  
+
+  --fs-1: 40px;
+  --fs-2: 25px;
+  --fs-3: 18px;
+
+}
+
+svg {
+  transform: scale(0.5);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: var(--clr-text);
+  background-color: var(--clr-bg);
+}
+
+main {
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#screenDiv{
+  width: 100%;
+  margin: 20px 0px;
+  display: flex;
+  align-items: stretch;
+  background-color: var(--clr-mainBg);
+  border-radius: 5px;
+}
+#screen {
+  width: 100%;
+  font-size: var(--fs-2);
+  padding: 0px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--clr-mainBg);
+  text-align: center;
+  color: var(--clr-white);
+}
+#screenBtn {
+  background-color: transparent;
+  border: none;
+}
+#screenBtn svg {
+  fill: var(--clr-btn-img);
+} 
+#screenBtn:active svg {
+  fill: var(--clr-text);
+}
+.copyModal {
+  min-width: 100px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 30px;
+  left: calc(50% - 50px);
+  border: 4px solid var(--clr-white);
+  border-radius: 3px;
+  font-size: var(--fs-3);
+  transform: translateX(-100%);
+  background-color: var(--clr-bg);
+  color: var(--clr-white);
+  opacity: 0;
+  z-index: 10;
+}
+
+.copyModal.add {
+  animation: slide 2s forwards;
+}
+
+@keyframes slide {
+  25% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50%{
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+section {
+  width: 100%;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  border-radius: 5px;
+  background-color: var(--clr-mainBg);
+}
+
+#rangeDiv {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+h2 {
+  font-size: var(--fs-3);
+}
+#rangeValue {
+  font-size: var(--fs-2);
+}
+#rangeInput { 
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  outline: none;
+  border-radius: 10px;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  background: var(--clr-btn-img);
+}
+#rangeInput:hover {
+  opacity: 1;
+}
+#rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--clr-mainBg);
+  border-radius: 50%;
+  background: var(--clr-btn-img);
+  cursor: pointer;
+}
+#rangeInput:active::-webkit-slider-thumb {
+  background: var(--clr-mainBg);
+  border-color: var(--clr-btn-img);
+}
+#rangeInput::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border: 2px solid var(--clr-white);
+  border-radius: 50%;
+  background: var(--clr-btn-img);
+  cursor: pointer;
+}
+
+#checkboxNav {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#checkboxNav li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox {
+  position: relative;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid hsl(0, 0%, 70%);
+  border-radius: 2px;
+  outline: none;
+  background-color: var(--clr-white);
+}
+.checkbox:checked {
+  background-color: var(--clr-btn-img);
+}
+.checkbox:checked::after {
+  content: '\2713';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.2);
+  z-index: 10;
+}
+
+.random {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+h4 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bar {
+  outline: 2px solid hsl(0, 0%, 70%);
+  border-radius: 2px;
+  display: block;
+  width: 10px;
+  height: 30px;
+  background-color: var(--clr-white);
+}
+
+@media (max-width: 500px) {
+  body {
+    width: 100vw;
+  }
+  main {
+    width: 90%;
+  }
+}
+
